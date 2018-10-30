@@ -1,0 +1,20 @@
+{
+	"files.encoding": "windows1252",
+	"advpl.environments": [
+		{
+			"name": "p12117",
+			"environment": "p12117",
+			"language": "PORTUGUESE",
+			"smartClientPath": "C:\\Especif\\Protheus12\\p12117\\bin\\smartclient\\",
+			"includeList": "C:\\AdvplFramework\\src\\include\\;C:\\AdvplFramework\\src\\include-lib\\;C:\\AdvplFramework\\src\\EAI\\src\\include-lib\\;C:\\AdvplFramework\\src\\mp_monitor\\src\\include-lib\\;C:\\AdvplFramework\\src\\mp_monitor\\src\\include\\;C:\\Especif\\Includes_STR\\;C:\\Especif\\Includes_outros\\",
+			"rpoType": "TOP",
+			"serverVersion": "131227A",
+			"server": "localhost",
+			"port": "5333",
+			"user": "Admin",
+			"passwordCipher": "a3R0OEw2WUkyK1ZnQWFJYlpBRDR3bWlXQVdBdzdYVVRrV3ArRWtQYTlwQWFIdm1hb3ljZTVSRWtMTXJTRzZqK0ZpZlRMU0lUZEpwcndVMnVlZ0NFYzBWK2JJVk1FQXFpN3FQbnNQaGZkRXY5NkgwYkFKRm9qYjkrQTVoK2tVbUg="
+		}
+	],
+	"advpl.selectedEnvironment": "p12117",
+	"advpl.workspaceFolders": "c:\\wisdom\\exemplos;"
+}
