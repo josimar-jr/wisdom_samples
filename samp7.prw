@@ -50,14 +50,15 @@ User Function s7Ver(cAlias, nRecno, nOpc)
 	
 	Define MSDialog oDlg Title "Ver Animais" From 0,0 To 400,600 Pixel
 
-	oEnchoice := MsMGet():New("ZJ0" /*cAlias*/, , 4 /*nOpc*/,;
+	RegToMemory("ZJ0",.F.)
+	oEnchoice := MsMGet():New("ZJ0" /*cAlias*/, , 2 /*nOpc*/,;
 						, , , /*aAcho*/,;
 						{ 0/*nTop*/, 0/*nLeft*/, 100/*nBottom*/, 300/*nRight*/ }/*aPos*/, /*aCpos*/, /*nModelo*/, , , ,;
-						/*oWnd*/, /*lF3*/, /*lMemoria*/, /*lColumn*/,;
+						oDlg /*oWnd*/, /*lF3*/, /*lMemoria*/, /*lColumn*/,;
 						/*caTela*/, /*lNoFolder*/, /*lProperty*/,;
 						/*aField*/, /*aFolder*/, /*lCreate*/, /*lNoMDIStretch*/, )
-	
-	oGetDados := MsNewGetDados():New( 100/*nTop*/, 0/*nLeft*/,300/*nBottom*/,400/*nRight*/,;
+
+	oGetDados := MsNewGetDados():New( 100/*nTop*/, 0/*nLeft*/,200/*nBottom*/,300/*nRight*/,;
 								/*GD_INSERT + GD_UPDATE + GD_DELETE*/ /*nStyle*/, /*uLinhaOk*/,/*uTudoOk*/,/*cIniCpos*/,;
 								/*aAlter*/,/*nFreeze*/,/*nMax*/,/*cFieldOk*/,;
 								/*uSuperDel*/,/*uDelOk*/, oDlg /*oWnd*/, aHeaderZJ2 /*aHeader*/,;
@@ -75,6 +76,7 @@ User Function s7Alt(cAlias, nRecno, nOpc)
 	Local oGetDados := Nil
 	Local oDlg := Nil
 	Local oEnchoice := Nil
+	Local nOpca := 0
 	
 	DbSelectArea("ZJ2")
 
@@ -87,24 +89,34 @@ User Function s7Alt(cAlias, nRecno, nOpc)
 				aHeaderZJ2 /*aHeaderAux*/, aColsZJ2 /*aColsAux*/,/*bafterCols*/ , /*bBeforeCols*/,;
 				/*bAfterHeader*/, /*cAliasQry*/)
 	
-	Define MSDialog oDlg Title "Alterar Vínculos" From 0,0 To 300,400 Pixel
-
-	oEnchoice := MsMGet():New("ZJ0" /*cAlias*/, , 4 /*nOpc*/,;
+	Define MSDialog oDlg Title "Alterar Vínculos" From 0,0 To 400,600 Pixel
+	
+	RegToMemory("ZJ0",.F.)
+	oEnchoice := MsMGet():New("ZJ0" /*cAlias*/, , 2 /*nOpc*/,;
 						, , , /*aAcho*/,;
-						/*aPos*/, /*aCpos*/, /*nModelo*/, , , ,;
-						/*oWnd*/, /*lF3*/, /*lMemoria*/, /*lColumn*/,;
+						{ 30/*nTop*/, 0/*nLeft*/, 100/*nBottom*/, 300/*nRight*/ }/*aPos*/, /*aCpos*/, /*nModelo*/, , , ,;
+						oDlg /*oWnd*/, /*lF3*/, /*lMemoria*/, /*lColumn*/,;
 						/*caTela*/, /*lNoFolder*/, /*lProperty*/,;
 						/*aField*/, /*aFolder*/, /*lCreate*/, /*lNoMDIStretch*/, )
 
 	// Cria o grid para alteração
-	oGetDados := MsNewGetDados():New( 0/*nTop*/, 0/*nLeft*/,510/*nBottom*/,460/*nRight*/,;
+	oGetDados := MsNewGetDados():New( 100/*nTop*/, 0/*nLeft*/,200/*nBottom*/,300/*nRight*/,;
 								GD_INSERT + GD_UPDATE + GD_DELETE /*nStyle*/, /*uLinhaOk*/,/*uTudoOk*/,/*cIniCpos*/,;
 								/*aAlter*/,/*nFreeze*/,/*nMax*/,/*cFieldOk*/,;
 								/*uSuperDel*/,/*uDelOk*/, oDlg /*oWnd*/, aHeaderZJ2 /*aHeader*/,;
 								aColsZJ2 /*aCols*/, /*uChange*/, /*cTela*/ )
 
-	Activate MSDialog oDlg Centered
+	Activate MSDialog oDlg CENTERED ON INIT EnchoiceBar(oDlg, {|| nOpca := 1, oDlg:End() }/*bOK*/, {|| oDlg:End() } /*bCancel*/ )
 
+	If nOpca == 1
+		// Gravar os dados
+		Gravar()
+	EndIf
+
+Return
+
+
+Static Function Gravar()
 
 
 Return
