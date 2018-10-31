@@ -109,7 +109,7 @@ User Function s7Alt(cAlias, nRecno, nOpc)
 	Activate MSDialog oDlg CENTERED ON INIT EnchoiceBar(oDlg, {|| nOpca := 1, oDlg:End() }/*bOK*/, {|| oDlg:End() } /*bCancel*/ )
 
 	If nOpca == 1
-		// Gravar os dados
+		// Gravar os dados do aCols na tabela ZJ2
 		Gravar()
 	EndIf
 
@@ -118,5 +118,21 @@ Return
 
 Static Function Gravar()
 
+	// Descobrir posição do campo RecnoWT no aHeader
+
+	// Avaliar se o RecnoWT é Zero no aCols
+
+		// Se for 0 devo incluir um registro
+		// Reclock com .T.
+
+	// Caso não seja inclusão
+		// Posicionar no Recno lido do campo RecnoWT
+
+		// A linha foi excluída no aCols?
+		//   verificar o último campo do aCols (.T. foi excluída)
+			// usar o DbDelete
+
+		// Se não foi  excluída a linha 
+			// Alterar o conteúdo dos campos na linha posicionada
 
 Return
