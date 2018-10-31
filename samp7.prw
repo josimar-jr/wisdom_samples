@@ -23,11 +23,13 @@ Static Function Menudef()
 Return aMenu
 
 
-User Function s7Ver(cAlias, nReg, nOpc)
+User Function s7Ver(cAlias, nRecno, nOpc)
 	Local aHeaderZJ2 := {}
 	Local aColsZJ2 := {}
 	Local cSeek := ""
 	Local cWhile := ""
+	Local oGetDados := Nil
+	Local oDlg := Nil
 	
 	DbSelectArea("ZJ2")
 
@@ -39,5 +41,16 @@ User Function s7Ver(cAlias, nReg, nOpc)
 				/*aYesFields*/, /*lOnlyYes*/, /*cQuery*/, /*bMontAcols*/, .F. /*lEmptyInc*/,; 
 				aHeaderZJ2 /*aHeaderAux*/, aColsZJ2 /*aColsAux*/,/*bafterCols*/ , /*bBeforeCols*/,;
 				/*bAfterHeader*/, /*cAliasQry*/)
+	
+	Define MSDialog oDlg Title "Ver Animais" From 0,0 To 300,400 Pixel
+
+	// 
+	oGetDados := MsNewGetDados():New( 0/*nTop*/, 0/*nLeft*/,510/*nBottom*/,460/*nRight*/,;
+								/*GD_INSERT + GD_UPDATE + GD_DELETE*/ /*nStyle*/, /*uLinhaOk*/,/*uTudoOk*/,/*cIniCpos*/,;
+								/*aAlter*/,/*nFreeze*/,/*nMax*/,/*cFieldOk*/,;
+								/*uSuperDel*/,/*uDelOk*/, oDlg /*oWnd*/, aHeaderZJ2 /*aHeader*/,;
+								aColsZJ2 /*aCols*/, /*uChange*/, /*cTela*/ )
+
+	Activate MSDialog oDlg Centered
 Return
 
