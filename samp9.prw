@@ -21,6 +21,6 @@ Static Function Menudef()
 Return aMenu
 
 
-User Function Smp9Inc( cAlias, nReg, nOpc )
+User Function Smp9Inc( cAlias, nRecno, nOpcMenu )
 	AxInclui(cAlias, nReg, nOpc)
 Return
