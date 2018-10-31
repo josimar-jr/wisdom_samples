@@ -14,7 +14,8 @@ user function samp9_2()
 	// Carregar as informações da tabela de pessoas para o array
 	// Abrir a tabela
 	DbSelectArea('ZJ1')
-	ZJ1->(DbSetOrder(2)) // ZJ1_FILIAL + ZJ1_NOME
+	ZJ1->( DbSetOrder(2)) // ZJ1_FILIAL + ZJ1_NOME
+	ZJ1->( DbSeek( xFilial("ZJ1"), .T. ) )
 
 	// Os campos + último lógico
 	nColunas := Len(aCampos)+1
