@@ -6,7 +6,7 @@ user function samp9_1()
 
 	// Abrir ambiente
 	RpcSetEnv('10','E1U1F1')
-	
+
 	// Carregar as informações da tabela de pessoas para o array
 	// Abrir a tabela
 	DbSelectArea('ZJ0')
