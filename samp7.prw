@@ -35,6 +35,7 @@ User Function s7Ver(cAlias, nRecno, nOpc)
 	Local cWhile := ""
 	Local oGetDados := Nil
 	Local oDlg := Nil
+	Local oEnchoice := Nil
 	
 	DbSelectArea("ZJ2")
 
@@ -47,10 +48,16 @@ User Function s7Ver(cAlias, nRecno, nOpc)
 				aHeaderZJ2 /*aHeaderAux*/, aColsZJ2 /*aColsAux*/,/*bafterCols*/ , /*bBeforeCols*/,;
 				/*bAfterHeader*/, /*cAliasQry*/)
 	
-	Define MSDialog oDlg Title "Ver Animais" From 0,0 To 300,400 Pixel
+	Define MSDialog oDlg Title "Ver Animais" From 0,0 To 400,600 Pixel
 
-	// 
-	oGetDados := MsNewGetDados():New( 0/*nTop*/, 0/*nLeft*/,510/*nBottom*/,460/*nRight*/,;
+	oEnchoice := MsMGet():New("ZJ0" /*cAlias*/, , 4 /*nOpc*/,;
+						, , , /*aAcho*/,;
+						{ 0/*nTop*/, 0/*nLeft*/, 100/*nBottom*/, 300/*nRight*/ }/*aPos*/, /*aCpos*/, /*nModelo*/, , , ,;
+						/*oWnd*/, /*lF3*/, /*lMemoria*/, /*lColumn*/,;
+						/*caTela*/, /*lNoFolder*/, /*lProperty*/,;
+						/*aField*/, /*aFolder*/, /*lCreate*/, /*lNoMDIStretch*/, )
+	
+	oGetDados := MsNewGetDados():New( 100/*nTop*/, 0/*nLeft*/,300/*nBottom*/,400/*nRight*/,;
 								/*GD_INSERT + GD_UPDATE + GD_DELETE*/ /*nStyle*/, /*uLinhaOk*/,/*uTudoOk*/,/*cIniCpos*/,;
 								/*aAlter*/,/*nFreeze*/,/*nMax*/,/*cFieldOk*/,;
 								/*uSuperDel*/,/*uDelOk*/, oDlg /*oWnd*/, aHeaderZJ2 /*aHeader*/,;
@@ -67,6 +74,7 @@ User Function s7Alt(cAlias, nRecno, nOpc)
 	Local cWhile := ""
 	Local oGetDados := Nil
 	Local oDlg := Nil
+	Local oEnchoice := Nil
 	
 	DbSelectArea("ZJ2")
 
@@ -81,6 +89,13 @@ User Function s7Alt(cAlias, nRecno, nOpc)
 	
 	Define MSDialog oDlg Title "Alterar Vínculos" From 0,0 To 300,400 Pixel
 
+	oEnchoice := MsMGet():New("ZJ0" /*cAlias*/, , 4 /*nOpc*/,;
+						, , , /*aAcho*/,;
+						/*aPos*/, /*aCpos*/, /*nModelo*/, , , ,;
+						/*oWnd*/, /*lF3*/, /*lMemoria*/, /*lColumn*/,;
+						/*caTela*/, /*lNoFolder*/, /*lProperty*/,;
+						/*aField*/, /*aFolder*/, /*lCreate*/, /*lNoMDIStretch*/, )
+
 	// Cria o grid para alteração
 	oGetDados := MsNewGetDados():New( 0/*nTop*/, 0/*nLeft*/,510/*nBottom*/,460/*nRight*/,;
 								GD_INSERT + GD_UPDATE + GD_DELETE /*nStyle*/, /*uLinhaOk*/,/*uTudoOk*/,/*cIniCpos*/,;
@@ -89,4 +104,7 @@ User Function s7Alt(cAlias, nRecno, nOpc)
 								aColsZJ2 /*aCols*/, /*uChange*/, /*cTela*/ )
 
 	Activate MSDialog oDlg Centered
+
+
+
 Return
