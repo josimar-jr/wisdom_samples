@@ -84,7 +84,7 @@ User Function s7Alt(cAlias, nRecno, nOpc)
  	cWhile := "ZJ2->ZJ2_FILIAL + ZJ2->ZJ2_IDPESS"
 
 	FillGetDados( 4, "ZJ2", 1, cSeek,; 
-				{||&(cWhile)}, /*{|| bCond,bAct1,bAct2}*/, /*aNoFields*/,; 
+				{||&(cWhile)}, /*{|| bCond,bAct1,bAct2}*/, {"ZJ2_IDPESS"}/*aNoFields*/,; 
 				/*aYesFields*/, /*lOnlyYes*/, /*cQuery*/, /*bMontAcols*/, .F. /*lEmptyInc*/,; 
 				aHeaderZJ2 /*aHeaderAux*/, aColsZJ2 /*aColsAux*/,/*bafterCols*/ , /*bBeforeCols*/,;
 				/*bAfterHeader*/, /*cAliasQry*/)
@@ -106,7 +106,10 @@ User Function s7Alt(cAlias, nRecno, nOpc)
 								/*uSuperDel*/,/*uDelOk*/, oDlg /*oWnd*/, aHeaderZJ2 /*aHeader*/,;
 								aColsZJ2 /*aCols*/, /*uChange*/, /*cTela*/ )
 
-	Activate MSDialog oDlg CENTERED ON INIT EnchoiceBar(oDlg, {|| nOpca := 1, oDlg:End() }/*bOK*/, {|| oDlg:End() } /*bCancel*/ )
+	Activate MSDialog oDlg CENTERED ;
+		ON INIT EnchoiceBar(oDlg, ;
+			{|| If( Obrigatorio( oEnchoice:aGets, oEnchoice:aTela ) .And. oGetDados:TudoOk(), (nOpca := 1, oDlg:End() ) ) }/*bOK*/,;
+			 {|| oDlg:End() } /*bCancel*/ )
 
 	If nOpca == 1
 		// Gravar os dados do aCols na tabela ZJ2
@@ -119,10 +122,12 @@ Return
 Static Function Gravar( aHeader, aCols )
 	Local nLinha := 0
 	Local nPosRecWt := 0
+	Local nPosIdAnim := 0
 	Local nLastPos := 0
 
 	// Descobrir posição do campo RecnoWT no aHeader
 	nPosRecWt := aScan( aHeader, {|x|x[2]=="ZJ2_REC_WT" } )
+	nPosIdAnim := aScan( aHeader, {|x|x[2]=="ZJ2_IDANIM" } )
 	nLastPos := Len(aHeader)+1
 	
 	For nLinha := 1 To Len(aCols)
@@ -131,8 +136,8 @@ Static Function Gravar( aHeader, aCols )
 			// Se for 0 devo incluir um registro
 			// Reclock com .T.
 			GravarZJ2( 3,;
-					 /*como pegar o id pessoa / M->ZJ0_ID funciona? */,;
-					 /*como pegar o id animal / e aqui precisa do quê? */ )
+					   M->ZJ0_ID /*como pegar o id pessoa / M->ZJ0_ID funciona? */,;
+					   aCols[nLinha,nPosIdAnim] /*como pegar o id animal / e aqui precisa do quê? */ )
 		Else
 		// Caso não seja inclusão
 			// Posicionar no Recno lido do campo RecnoWT
@@ -142,15 +147,15 @@ Static Function Gravar( aHeader, aCols )
 			If aCols[nLinha,nLastPos]
 			//   verificar o último campo do aCols (.T. foi excluída)
 				// usar o DbDelete
-				GravarZJ2( 5,; // precisa dos demais parâmetros?
-					 /*como pegar o id pessoa / M->ZJ0_ID funciona? */,;
-					 /*como pegar o id animal / e aqui precisa do quê? */ )
+				GravarZJ2( 5 ) // Não precisa passar os outros parâmetros!
 			Else
-			// Se não foi  excluída a linha 
-				// Alterar o conteúdo dos campos na linha posicionada
-				GravarZJ2( 4,; // precisa dos demais parâmetros?
-					 /*como pegar o id pessoa / M->ZJ0_ID funciona? */,;
-					 /*como pegar o id animal / e aqui precisa do quê? */ )
+				// Se não foi  excluída a linha e precisa alterar o conteúdo
+				If !( ZJ2->ZJ2_IDANIM == aCols[nLinha,nPosIdAnim])
+					// Alterar o conteúdo dos campos na linha posicionada
+					GravarZJ2( 4,; // precisa dos demais parâmetros?
+							   M->ZJ0_ID /*como pegar o id pessoa / M->ZJ0_ID funciona? */,;
+							   aCols[nLinha,nPosIdAnim] /*como pegar o id animal / e aqui precisa do quê? */ )
+				EndIf
 			EndIf
 
 		EndIf
