@@ -100,16 +100,16 @@ User Function s7Alt(cAlias, nRecno, nOpc)
 						/*aField*/, /*aFolder*/, /*lCreate*/, /*lNoMDIStretch*/, )
 
 	// Cria o grid para alteração
-	oGetDados := MsNewGetDados():New( 100/*nTop*/, 0/*nLeft*/,200/*nBottom*/,300/*nRight*/,;
-								GD_INSERT + GD_UPDATE + GD_DELETE /*nStyle*/, /*uLinhaOk*/,/*uTudoOk*/,/*cIniCpos*/,;
-								/*aAlter*/,/*nFreeze*/,/*nMax*/,/*cFieldOk*/,;
-								/*uSuperDel*/,/*uDelOk*/, oDlg /*oWnd*/, aHeaderZJ2 /*aHeader*/,;
+	oGetDados := MsNewGetDados():New( 100/*nTop*/, 0/*nLeft*/, 200/*nBottom*/, 300/*nRight*/,;
+								GD_INSERT + GD_UPDATE + GD_DELETE /*nStyle*/, /*uLinhaOk*/, /*uTudoOk*/, /*cIniCpos*/,;
+								/*aAlter*/, /*nFreeze*/, /*nMax*/, /*cFieldOk*/,;
+								/*uSuperDel*/, /*uDelOk*/, oDlg /*oWnd*/, aHeaderZJ2 /*aHeader*/,;
 								aColsZJ2 /*aCols*/, /*uChange*/, /*cTela*/ )
 
 	Activate MSDialog oDlg CENTERED ;
 		ON INIT EnchoiceBar(oDlg, ;
-			{|| If( Obrigatorio( oEnchoice:aGets, oEnchoice:aTela ) .And. oGetDados:TudoOk(), (nOpca := 1, oDlg:End() ) ) }/*bOK*/,;
-			 {|| oDlg:End() } /*bCancel*/ )
+			{|| If( Obrigatorio( oEnchoice:aGets, oEnchoice:aTela ) .And. oGetDados:TudoOk(), (nOpca := 1, oDlg:End() ), ) },; // bOK
+			 {|| oDlg:End() } ) //bCancel
 
 	If nOpca == 1
 		// Gravar os dados do aCols na tabela ZJ2
@@ -153,8 +153,8 @@ Static Function Gravar( aHeader, aCols )
 				If !( ZJ2->ZJ2_IDANIM == aCols[nLinha,nPosIdAnim])
 					// Alterar o conteúdo dos campos na linha posicionada
 					GravarZJ2( 4,; // precisa dos demais parâmetros?
-							   M->ZJ0_ID /*como pegar o id pessoa / M->ZJ0_ID funciona? */,;
-							   aCols[nLinha,nPosIdAnim] /*como pegar o id animal / e aqui precisa do quê? */ )
+							   M->ZJ0_ID ,; //como pegar o id pessoa / M->ZJ0_ID funciona? */
+							   aCols[nLinha,nPosIdAnim] ) //como pegar o id animal / e aqui precisa do quê?
 				EndIf
 			EndIf
 
