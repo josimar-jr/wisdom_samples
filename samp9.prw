@@ -35,8 +35,11 @@ User Function Smp9Inc( cAlias, nRecno, nOpcMenu )
 						oDlg /*oWnd*/, /*lF3*/, /*lMemoria*/, /*lColumn*/,;
 						/*caTela*/, /*lNoFolder*/, /*lProperty*/,;
 						/*aField*/, /*aFolder*/, /*lCreate*/, /*lNoMDIStretch*/, )
+	oEnchoice:oBox:Align := CONTROL_ALIGN_ALLCLIENT
 
-	Activate MSDialog oDlg CENTERED ON INIT EnchoiceBar(oDlg, {|| nOpca := 1, oDlg:End() }/*bOK*/, {|| If( MsgYesNo("Tem certeza que deseja sair?"), (Alert("Saindo..."), oDlg:End()), Nil ) } /*bCancel*/ )
+	Activate MSDialog oDlg CENTERED ON INIT EnchoiceBar(oDlg, ;
+			{|| If( Obrigatorio( oEnchoice:aGets, oEnchoice:aTela ), (nOpca := 1, oDlg:End() ), Nil ) }/*bOK*/,;
+			 {|| oDlg:End() } /*bCancel*/ )
 
 	If nOpca == 1
 		Gravar( 3 )
