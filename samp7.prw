@@ -110,29 +110,65 @@ User Function s7Alt(cAlias, nRecno, nOpc)
 
 	If nOpca == 1
 		// Gravar os dados do aCols na tabela ZJ2
-		Gravar()
+		Gravar( aHeaderZJ2, oGetDados:aCols )
 	EndIf
 
 Return
 
 
-Static Function Gravar()
+Static Function Gravar( aHeader, aCols )
+	Local nLinha := 0
+	Local nPosRecWt := 0
+	Local nLastPos := 0
 
 	// Descobrir posição do campo RecnoWT no aHeader
+	nPosRecWt := aScan( aHeader, {|x|x[2]=="ZJ2_REC_WT" } )
+	nLastPos := Len(aHeader)+1
+	
+	For nLinha := 1 To Len(aCols)
+		// Avaliar se o RecnoWT é Zero no aCols
+		If aCols[nLinha,nPosRecWt] == 0
+			// Se for 0 devo incluir um registro
+			// Reclock com .T.
+			GravarZJ2( 3,;
+					 /*como pegar o id pessoa / M->ZJ0_ID funciona? */,;
+					 /*como pegar o id animal / e aqui precisa do quê? */ )
+		Else
+		// Caso não seja inclusão
+			// Posicionar no Recno lido do campo RecnoWT
+			ZJ2->( DbGoTo( aCols[nLinha,nPosRecWt] ) )
+			// A linha foi excluída no aCols?
 
-	// Avaliar se o RecnoWT é Zero no aCols
+			If aCols[nLinha,nLastPos]
+			//   verificar o último campo do aCols (.T. foi excluída)
+				// usar o DbDelete
+				GravarZJ2( 5,; // precisa dos demais parâmetros?
+					 /*como pegar o id pessoa / M->ZJ0_ID funciona? */,;
+					 /*como pegar o id animal / e aqui precisa do quê? */ )
+			Else
+			// Se não foi  excluída a linha 
+				// Alterar o conteúdo dos campos na linha posicionada
+				GravarZJ2( 4,; // precisa dos demais parâmetros?
+					 /*como pegar o id pessoa / M->ZJ0_ID funciona? */,;
+					 /*como pegar o id animal / e aqui precisa do quê? */ )
+			EndIf
 
-		// Se for 0 devo incluir um registro
-		// Reclock com .T.
+		EndIf
+	Next nLinha
 
-	// Caso não seja inclusão
-		// Posicionar no Recno lido do campo RecnoWT
+Return
 
-		// A linha foi excluída no aCols?
-		//   verificar o último campo do aCols (.T. foi excluída)
-			// usar o DbDelete
 
-		// Se não foi  excluída a linha 
-			// Alterar o conteúdo dos campos na linha posicionada
-
+Static Function GravarZJ2( nOpc, cIdPessoa, cIdAnimal )
+	If nOpc == 5
+		Reclock("ZJ2",.F.)
+			ZJ2->(DbDelete())
+		ZJ2->(MsUnlock())
+	Else
+		Reclock("ZJ2",(nOpc==3))
+			ZJ2->ZJ2_FILIAL := xFilial("ZJ2")
+			ZJ2->ZJ2_IDPESS := cIdPessoa
+			ZJ2->ZJ2_IDANIM := cIdAnimal
+		ZJ2->(MsUnlock())
+	EndIf
 Return
