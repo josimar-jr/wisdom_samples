@@ -19,7 +19,7 @@ Static Function Menudef()
 	AADD(aMenu, {"Visualizar"	,"AxVisual"	 , 0, 2 } )
 	AADD(aMenu, {"Incluir"		,"AxInclui"  , 0, 3 } )
 	AADD(aMenu, {"Alterar"		,"AxAltera"	 , 0, 4 } )
-	AADD(aMenu, {"Excluir"		,"AxDeleta"	 , 0, 5 } )
+	AADD(aMenu, {"Excluir"		,"u_s7Exc"	 , 0, 5 } )
 	
 	AADD(aOptAnimais, {"Ver Animais"	, "u_s7Ver"	 , 0, 2 } )
 	AADD(aOptAnimais, {"Alterar Vínculos", "u_s7Alt"	 , 0, 4 } )
@@ -177,3 +177,28 @@ Static Function GravarZJ2( nOpc, cIdPessoa, cIdAnimal )
 		ZJ2->(MsUnlock())
 	EndIf
 Return
+
+
+User Function s7Exc( cAlias, nRecno, nOpcMenu )
+	Local aParams := Array(4)
+	aParams[1] := {|| .T.}
+	aParams[2] := {|| VldExc() }
+	aParams[3] := {|| .T.}
+	aParams[4] := {|| .T.}
+
+	AxDeleta( cAlias, nRecno, nOpcMenu, , , , aParams, , )
+Return
+
+
+Static Function VldExc()
+	Local lRet := .T.
+	Local cIdPessoa := ZJ0->ZJ0_ID
+
+	DbSelectArea("ZJ2")
+	ZJ2->(DbSetOrder(1)) // ZJ2_FILIAL + ZJ2_IDPESS + ZJ2_IDANIM
+
+	If ZJ2->( DbSeek( xFilial("ZJ2")+cIdPessoa ) )
+		lRet := .F.
+		Help(' ',1,'NODELPESSOA',,"A pessoa está vinculada a algum animal",1,0,,,,,,{"Remova o relacionamento antes de prosseguir"})
+	EndIf
+Return lRet
