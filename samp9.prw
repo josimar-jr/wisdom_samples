@@ -18,6 +18,8 @@ Static Function Menudef()
 	AADD(aMenu, {"Incluir Meu"		,"u_Smp9Inc" ,0,3})
 	AADD(aMenu, {"Alterar Meu"		,"u_Smp9Alt" ,0,4})
 	AADD(aMenu, {"Excluir Meu"		,"u_Smp9Exc" ,0,5})
+	AADD(aMenu, {"Ex. Query"		,"u_smpQry"  ,0,2})
+	
 Return aMenu
 
 
