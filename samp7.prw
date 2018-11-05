@@ -25,6 +25,7 @@ Static Function Menudef()
 	AADD(aOptAnimais, {"Alterar Vínculos", "u_s7Alt"	 , 0, 4 } )
 
 	AADD(aMenu, {"Animais"	,aOptAnimais	 , 0, 1 } )
+	AADD(aMenu, {"Imp. Txt", "u_sampImp1"	 , 0, 3 } )
 Return aMenu
 
 
