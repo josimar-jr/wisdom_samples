@@ -14,6 +14,7 @@ return
 Static Function Menudef()
 	Local aMenu := {}
 	Local aOptAnimais := {}
+	Local aImpExt := {}
 
 	AADD(aMenu, {"Pesquisar"	,"AxPesqui"	 , 0, 1 } )
 	AADD(aMenu, {"Visualizar"	,"AxVisual"	 , 0, 2 } )
@@ -23,9 +24,12 @@ Static Function Menudef()
 	
 	AADD(aOptAnimais, {"Ver Animais"	, "u_s7Ver"	 , 0, 2 } )
 	AADD(aOptAnimais, {"Alterar Vínculos", "u_s7Alt"	 , 0, 4 } )
-
 	AADD(aMenu, {"Animais"	,aOptAnimais	 , 0, 1 } )
-	AADD(aMenu, {"Imp. Txt", "u_sampImp1"	 , 0, 3 } )
+
+	AADD(aImpExt, {"Imp. Txt", "u_sampImp1"	 , 0, 3 } )
+	AADD(aImpExt, {"Exp. Txt", "u_sampExp1"	 , 0, 2 } )
+	AADD(aMenu, {"Imp/Exp TXT",aImpExt	 , 0, 1 } )
+	
 Return aMenu
 
 
