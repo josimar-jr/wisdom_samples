@@ -2,7 +2,7 @@
 #include 'fileio.ch'
 
 User Function sampExp1()
-	ProcExpTxt()
+	FwMsgRun( ,{|| ProcExpTxt()}, "Exemplo processamento", "processando..." )
 return
 
 Static Function ProcExpTxt()

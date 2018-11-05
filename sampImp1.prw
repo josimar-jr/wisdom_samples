@@ -1,7 +1,11 @@
 #include 'protheus.ch'
 
 User Function sampImp1()
-	ProcImpTxt()
+	If GetMv("MV_XCANEXP")
+		ProcImpTxt()
+	Else
+		ApMsgInfo("Recurso bloqueado pelo parâmetro MV_XCANEXP")
+	EndIf
 return
 
 Static Function ProcImpTxt()
